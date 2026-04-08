@@ -546,12 +546,8 @@ if st.session_state.pred_data is not None and st.session_state.mr_value is not N
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=x_data, y=df[mr_col],
-        mode="lines+markers+text",
-        marker=dict(size=10, color="#2c5364", line=dict(width=1.5, color="white")),
-        line=dict(width=2.5, color="#2c5364"),
-        text=[str(i) for i in range(1, 16)],
-        textposition="top center",
-        textfont=dict(size=9, color="#999"),
+        mode="markers",
+        marker=dict(size=14, color="#2c5364", line=dict(width=1.5, color="white")),
         hovertemplate=f"{x_label}: %{{x:.2f}}<br>MR: %{{y:.3f}} {mr_u}<extra></extra>",
     ))
     fig.update_layout(
