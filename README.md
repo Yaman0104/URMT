@@ -1,4 +1,4 @@
-# URMT — The Ultimate Resilient Modulus Tool (Web Version)
+# URMT - The Ultimate Resilient Modulus Tool (Web Version)
 
 **Streamlit web application** for predicting the Resilient Modulus (MR) of pavement materials using Polynomial Ridge Regression (Degree 3).
 
@@ -19,27 +19,6 @@ Ported from the MATLAB "Prediction Tool" tab of the original URMT by **Mohamad Y
 - **Sensitivity analysis** (±10% perturbation on each input)
 - **CSV export** of results and sensitivity data
 - **Load Median Defaults** for quick testing
-
----
-
-## Quick Start
-
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-Then open `http://localhost:8501` in your browser.
-
----
-
-## Files
-
-| File | Description |
-|------|-------------|
-| `app.py` | Main Streamlit application |
-| `models.py` | Polynomial Ridge Regression models (auto-converted from MATLAB) |
-| `requirements.txt` | Python dependencies |
 
 ---
 
