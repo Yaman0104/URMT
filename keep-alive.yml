@@ -1,0 +1,16 @@
+name: Keep Streamlit Alive
+
+on:
+  schedule:
+    # Runs every 6 hours (well within the 12-hour window)
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allows manual trigger too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit App
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://your-app-name.streamlit.app
+          echo "App pinged at $(date)"
