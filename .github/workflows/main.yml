@@ -12,5 +12,5 @@ jobs:
     steps:
       - name: Ping Streamlit App
         run: |
-          curl -s -o /dev/null -w "%{http_code}" https://theurmt.streamlit.app
+          curl -s -o /dev/null -w "%{http_code}" https://theurmt.streamlit.app/
           echo "App pinged at $(date)"
