@@ -1,16 +1,46 @@
 name: Keep Streamlit Alive
-
 on:
   schedule:
-    # Runs every 6 hours (well within the 12-hour window)
     - cron: '0 */6 * * *'
-  workflow_dispatch: # Allows manual trigger too
+  workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Streamlit App
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
         run: |
-          curl -s -o /dev/null -w "%{http_code}" https://theurmt.streamlit.app/
-          echo "App pinged at $(date)"
+          npm install playwright
+          npx playwright install chromium --with-deps
+
+      - name: Wake Streamlit app
+        run: |
+          node -e "
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+            console.log('Navigating to app...');
+            await page.goto('https://theurmt.streamlit.app/', { waitUntil: 'networkidle', timeout: 60000 });
+
+            // If the app is asleep, click the wake button
+            try {
+              const wakeBtn = await page.waitForSelector('button:has-text(\"Yes, get this app back up!\")', { timeout: 5000 });
+              if (wakeBtn) {
+                console.log('App was asleep — clicking wake button.');
+                await wakeBtn.click();
+                await page.waitForTimeout(45000);
+              }
+            } catch {
+              console.log('App already awake.');
+            }
+
+            console.log('Done at ' + new Date().toISOString());
+            await browser.close();
+          })();
+          "
